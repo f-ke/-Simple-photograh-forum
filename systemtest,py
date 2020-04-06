@@ -1,0 +1,59 @@
+from selenium import webdriver
+import time
+import os
+#case 4.1 upload po/ times:5 
+for num in range(1,12):
+    page1=[]
+    page2=[]
+    page3=[]
+
+    browser = webdriver.Firefox()
+    browser.get("http://localhost:8080/")
+    page1.append(browser.execute_script("return performance.timing.responseStart"))
+    page1.append(browser.execute_script("return performance.timing.requestStart"))
+    page1.append(browser.execute_script("return performance.timing.domLoading"))
+    page1.append(browser.execute_script("return performance.timing.domComplete"))
+    page1.append(browser.execute_script("return performance.timing.loadEventStart"))
+    page1.append(browser.execute_script("return performance.timing.loadEventEnd "))
+    time.sleep(2)
+    browser.find_element_by_name("username").send_keys("sun")
+    browser.find_element_by_name("password").send_keys("123456")
+
+    time.sleep(2)
+    browser.find_element_by_class_name("btn").click()
+    page2.append(browser.execute_script("return performance.timing.responseStart"))
+    page2.append(browser.execute_script("return performance.timing.requestStart"))
+    page2.append(browser.execute_script("return performance.timing.domLoading"))
+    page2.append(browser.execute_script("return performance.timing.domComplete"))
+    page2.append(browser.execute_script("return performance.timing.loadEventStart"))
+    page2.append(browser.execute_script("return performance.timing.loadEventEnd "))
+
+    time.sleep(2)
+    browser.find_element_by_name("photo").click()
+    #upload
+    os.system(r"C:\Users\admin\Desktop\test\upload.exe") 
+    time.sleep(2)
+    browser.find_element_by_name("share").click()
+
+    page3.append(browser.execute_script("return performance.timing.responseStart"))
+    page3.append(browser.execute_script("return performance.timing.requestStart"))
+    page3.append(browser.execute_script("return performance.timing.domLoading"))
+    page3.append(browser.execute_script("return performance.timing.domComplete"))
+    page3.append(browser.execute_script("return performance.timing.loadEventStart"))
+    page3.append(browser.execute_script("return performance.timing.loadEventEnd "))
+
+    print(page1)
+    print(page2)
+    print(page3)
+
+    with open('log.txt','w') as f:
+        for m in page1:
+                   f.write(str(m)+" ")
+        f.write('\r\n')
+        for m in page2:
+            f.write(str(m)+" ")
+
+        f.write('\r\n')
+        for m in page3:
+           f.write(str(m)+" ")
+        f.write('\r\n')
